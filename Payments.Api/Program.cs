@@ -9,6 +9,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+
+builder.Services.AddRazorPages();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddControllers();
 
@@ -37,11 +39,8 @@ using (var scope = app.Services.CreateScope())
 
 app.UseRouting();
 app.MapControllers();
+app.MapRazorPages();
 
-// Redirect root to swagger for convenience
-app.MapGet("/", context => {
-    context.Response.Redirect("/swagger");
-    return Task.CompletedTask;
-});
+// No default redirect to Swagger; let Razor Pages handle the site root
 
 app.Run();
