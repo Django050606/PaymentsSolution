@@ -18,11 +18,18 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!ModelState.IsValid) return Page();
+        if (!ModelState.IsValid)
+        {
+            // This will print the exact reason for the 400 error in your Output window
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+            foreach (var error in errors)
+            {
+                Console.WriteLine($"Validation Error: {error}");
+            }
+            return Page(); // This returns the page so you can see the red error text
+        }
 
-        // Use the secret key defined in your service
         await _service.CreatePaymentAsync(Payment, "my-secret-key-123");
-
         Message = "Payment successfully submitted!";
         return Page();
     }

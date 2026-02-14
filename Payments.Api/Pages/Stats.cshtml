@@ -1,0 +1,52 @@
+﻿@page
+@model StatsModel
+@{
+    ViewData["Title"] = "Statistics";
+}
+
+<h2 class="mb-4">Dashboard Statistics</h2>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card bg-primary text-white shadow">
+            <div class="card-body">
+                <h6 class="card-title">Total Transaction Volume</h6>
+                <h2 class="display-4">@Model.StatsData?.TotalVolume</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card bg-info text-white shadow">
+            <div class="card-body">
+                <h6 class="card-title">Total Payments Count</h6>
+                <h2 class="display-4">@Model.StatsData?.TotalPayments</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4>Daily Breakdown</h4>
+<div class="table-responsive">
+    <table class="table table-bordered bg-white shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Date</th>
+                <th>Count</th>
+                <th>Total Daily Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.StatsData?.DailyBreakdown != null)
+            {
+                foreach (var day in Model.StatsData.DailyBreakdown)
+                {
+                    <tr>
+                        <td>@day.Date.ToShortDateString()</td>
+                        <td>@day.Count</td>
+                        <td>@day.TotalAmount</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
